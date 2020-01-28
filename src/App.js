@@ -5,23 +5,34 @@ import './App.css';
 class Main extends Component {
   constructor(props)  {
     super(props);
-    this.handleChange = this.handleChange;
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state =  {
-        postalCode: ''
+        postalCode: null
       }
   }
 
   
-  getData() {
+  getData = async e => {
+    const response = await fetch(`/api/weather?address=${this.state.postalCode}`, {
+      method: 'GET'
+    });
+    const body = await response.json();
+    this.setState({weather: body.forcast});
     
-  }
+  };
+  
   
   handleChange(e) {
     this.setState({postalCode: e.currentTarget.value});
-    console.log(this.getState());
+  }
+  
+  handleSubmit() {
+    this.getData();
   }
   
   render() {
+    console.log(this.state);
     return (
       <div className="App">
         <header className="App-header">
@@ -41,7 +52,7 @@ class Main extends Component {
           <div>
             <input onChange={this.handleChange}></input>
           </div>
-          <button>Get Weather</button>
+          <button  onClick={this.handleSubmit}>Get Weather</button>
         </header>
         
       </div>

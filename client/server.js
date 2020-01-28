@@ -1,6 +1,11 @@
 import express from 'express';
 import bodyParser  from 'body-parser';
-import Utils from './utils';
+import randomString  from 'random-string';
+import dotenv from 'dotenv';
+import request from 'request';
+import session from 'express-session';
+import proxy from 'http-proxy-middleware';
+import * as Utils from './utils';
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -23,7 +28,8 @@ app.post('/api/favorite', (req,res) => {
   );
 });
 
-app.get('/weather', (req,res) => {
+app.get('/api/weather', (req,res) => {
+  console.log('hello')
   if(!req.query.address) {
     res.send({
       error: 'Address query param is required'
