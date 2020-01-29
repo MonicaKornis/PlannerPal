@@ -6,6 +6,7 @@ import request from 'request';
 import session from 'express-session';
 import proxy from 'http-proxy-middleware';
 import * as Utils from './utils';
+import sequelize from 'Sequelize';
 
 const app = express();
 const port = process.env.PORT || 5000;
