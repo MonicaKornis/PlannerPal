@@ -10,7 +10,7 @@ import sequelize from 'Sequelize';
 
 const app = express();
 const port = process.env.PORT || 5000;
-const models = require('./models/models');
+const models = require('./../db/models/index.js');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
