@@ -10,6 +10,7 @@ import sequelize from 'Sequelize';
 
 const app = express();
 const port = process.env.PORT || 5000;
+const models = require('./models/models');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -62,8 +63,18 @@ app.get('/api/weather', (req,res) => {
 
     let geoData  = Utils.geoCode(req.query.address, getWeatherDataFromCoords);
   }
-
 });
+
+try{
+  models.db.sync().then(
+    app.listen(port, () => {
+       console.log(`Your server is listening on port ${port}`);
+    })
+  )
+} catch(error)  {
+  throw error;
+}
+
 
 
 
