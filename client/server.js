@@ -7,6 +7,7 @@ import session from 'express-session';
 import proxy from 'http-proxy-middleware';
 import * as Utils from './utils';
 import sequelize from 'Sequelize';
+import * as path from 'path';
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -14,6 +15,13 @@ const models = require('./../db/models/index.js');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/*', function (req, res) {
+   res.sendFile(path.join(__dirname, 'build', 'index.html'));
+ }); //all paths will now serve the index.html file with the 'root' -
+ //that way all of our url routes will be handled on the client side
 
 app.get('/api/destinations', (req,res) => {
   res.send({
@@ -65,16 +73,14 @@ app.get('/api/weather', (req,res) => {
   }
 });
 
-try{
+
   models.db.sync().then(
-    app.listen(port, () => {
+    console.log('The postgres database has been created'),
+    app.listen(port, (error) => {
+      if (error) throw error;
        console.log(`Your server is listening on port ${port}`);
     })
   )
-} catch(error)  {
-  throw error;
-}
-
 
 
 
