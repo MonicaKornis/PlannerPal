@@ -1,17 +1,19 @@
 import { Sequelize, DataTypes } from 'sequelize';
-import db from './db';
+import db from './../db';
 
 const User = db.define('User', {
   firstName: {
-    type: DataTypes.string,
+    type: DataTypes.STRING,
     allowNull: false
   },
   lastName: {
-    type: DataTypes.string,
+    type: DataTypes.STRING,
     allowNull: false
   },
   email: {
-    type: DataTypes.string,
+    type: DataTypes.STRING,
     allowNull: false
   }
 });
+
+module.exports = User;

@@ -1,11 +1,7 @@
 module.exports = {
   development: {
     dialect: "postgres",
-    username: "root",
-    password: null,
-    database: "plannerpal",
-    host: "localhost:5432",
-    logging: true
+    logging: false
   },
   test: {
     dialect: "postgres",
