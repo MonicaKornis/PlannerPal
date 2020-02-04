@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react'
 import './App.css';
+import logo from './logo.svg';
 
 class Main extends Component {
   constructor(props)  {
@@ -12,25 +12,25 @@ class Main extends Component {
       }
   }
 
-  
+
   getData = async e => {
     const response = await fetch(`/api/weather?address=${this.state.postalCode}`, {
       method: 'GET'
     });
     const body = await response.json();
     this.setState({weather: body.forcast});
-    
+
   };
-  
-  
+
+
   handleChange(e) {
     this.setState({postalCode: e.currentTarget.value});
   }
-  
+
   handleSubmit() {
     this.getData();
   }
-  
+
   render() {
     console.log(this.state);
     return (
@@ -48,13 +48,13 @@ class Main extends Component {
           >
             Input Postal Code
           </a>
-          
+
           <div>
             <input onChange={this.handleChange}></input>
           </div>
-          <button  onClick={this.handleSubmit}>Get Weather</button>
+          <button onClick={this.handleSubmit}>Get Weather</button>
         </header>
-        
+
       </div>
     );
   }
