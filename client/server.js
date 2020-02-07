@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser  from 'body-parser';
-import randomString  from 'random-string';
+import randomString  from 'randomString';
 import dotenv from 'dotenv';
 import request from 'request';
 import session from 'express-session';
@@ -8,20 +8,47 @@ import proxy from 'http-proxy-middleware';
 import * as Utils from './utils';
 import sequelize from 'Sequelize';
 import * as path from 'path';
+import qs from 'qs';
+import url from 'url';
+
+
+dotenv.config();
+
+const csrfString = randomString.generate();
+const redirectURI = process.env.host + '/redirect';
 
 const app = express();
 const port = process.env.PORT || 5000;
 const models = require('./../db/models/index.js');
 
+app.use(
+  session({
+    cookie: { maxAge: 60000 },
+    secret: randomString.generate(),
+    resave: false,
+    saveUninitialized: false
+  })
+)
+
+// let currentPath = __dirname.slice(-6);
+
+// app.use(express.static(path.join(__dirname, 'build')));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, 'build')));
-
-app.get('/*', function (req, res) {
-   res.sendFile(path.join(__dirname, 'build', 'index.html'));
- }); //all paths will now serve the index.html file with the 'root' -
+// 
+// app.get('/*', function (req, res) {
+//    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+//  }); //all paths will now serve the index.html file with the 'root' -
  //that way all of our url routes will be handled on the client side
+
+app.get('/api/login', (req,res) => {
+  res.send({
+    message: 'Hi!'
+  })
+})
+
 
 app.get('/api/destinations', (req,res) => {
   res.send({

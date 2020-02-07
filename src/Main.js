@@ -22,6 +22,13 @@ class Main extends Component {
 
   };
 
+  login = async e => {
+    const response = await fetch(`/api/login`, {
+      method: 'GET'
+    });
+    const body = await response.json();
+    console.log(body);
+  };
 
   handleChange(e) {
     this.setState({postalCode: e.currentTarget.value});
@@ -53,6 +60,7 @@ class Main extends Component {
             <input onChange={this.handleChange}></input>
           </div>
           <button onClick={this.handleSubmit}>Get Weather</button>
+          <button className='login-button' onClick={this.login}> Login With GitHub </button>
         </header>
 
       </div>
